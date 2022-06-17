@@ -80,12 +80,26 @@ class HelloJetbot(BaseSample):
         if self.start_set != True:
             self.start = time.time()
             self.start_set = True
+        # Extra practice: make the Jetbot move forward for 5 seconds,
+        # then move backward for 5 seconds,
+        # and then move in a clockwise circle for 5 seconds
         if (time.time() - self.start) <= 5:
-            print("Applying actions for time = " + str(time.time() - self.start))
+            print("Random forward movement for time = " + str(time.time() - self.start))
+            self._jetbot_articulation_controller.apply_action(ArticulationAction(joint_positions=None,
+                                                                            joint_efforts=None,
+                                                                            joint_velocities=5 * np.random.rand(2,)))
+        elif (time.time() - self.start) <= 10:
+            print("Backward movement for time = " + str(time.time() - self.start))
             self._jetbot_articulation_controller.apply_action(ArticulationAction(joint_positions=None,
                                                                             joint_efforts=None,
                                                                             joint_velocities=[-5,-5]))
-        self._jetbot_articulation_controller.apply_action(ArticulationAction(joint_positions=None,
+        elif (time.time() - self.start) <= 15:
+            print("Circular movement for time = " + str(time.time() - self.start))
+            self._jetbot_articulation_controller.apply_action(ArticulationAction(joint_positions=None,
+                                                                            joint_efforts=None,
+                                                                            joint_velocities=[5,0]))                                                                   
+        else:
+            self._jetbot_articulation_controller.apply_action(ArticulationAction(joint_positions=None,
                                                                             joint_efforts=None,
                                                                             joint_velocities=None))
         return
